@@ -37,6 +37,7 @@ def score_resume(text, keywords):
     return score
 
 
+
 # ---------------------- HOME (Protected) ----------------------
 @app.route("/", methods=["GET", "POST"])
 def upload_file():
@@ -134,14 +135,21 @@ def login():
 
 
 # ---------------------- SIGNUP ----------------------
+import re
+
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
         name = request.form.get("name")
         email = request.form.get("email")
-        role = request.form.get("role")   # 👈 New field
+        role = request.form.get("role")
         password = request.form.get("password")
         confirm_password = request.form.get("confirm_password")
+
+        # ✅ Password validation (backend)
+        if not re.match(r'^(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}$', password):
+            flash("Password must be at least 8 characters, include one number and one special character.")
+            return redirect(url_for("signup"))
 
         if password != confirm_password:
             flash("Passwords do not match!")
@@ -155,7 +163,7 @@ def signup():
         users_collection.insert_one({
             "name": name,
             "email": email,
-            "role": role,   # 👈 Save role
+            "role": role,
             "password": hashed_pw
         })
 
