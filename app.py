@@ -139,6 +139,7 @@ def signup():
     if request.method == "POST":
         name = request.form.get("name")
         email = request.form.get("email")
+        role = request.form.get("role")   # 👈 New field
         password = request.form.get("password")
         confirm_password = request.form.get("confirm_password")
 
@@ -146,13 +147,22 @@ def signup():
             flash("Passwords do not match!")
             return redirect(url_for("signup"))
 
-        # TODO: Save user to database
-        session["user"] = name  # store name in session
-        flash("Account created successfully! Welcome, " + name)
-        return redirect(url_for("upload_file"))
+        if users_collection.find_one({"email": email}):
+            flash("Email already registered!")
+            return redirect(url_for("signup"))
+
+        hashed_pw = bcrypt.generate_password_hash(password).decode("utf-8")
+        users_collection.insert_one({
+            "name": name,
+            "email": email,
+            "role": role,   # 👈 Save role
+            "password": hashed_pw
+        })
+
+        flash("Account created successfully! Please log in.")
+        return redirect(url_for("login"))
 
     return render_template("signup.html")
-
 
 # ---------------------- LOGOUT ----------------------
 @app.route("/logout")
