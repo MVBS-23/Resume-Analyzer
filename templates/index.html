@@ -16,119 +16,45 @@
       --ink:#0f172a;
       --muted:#64748b;
       --bg:#f6f8ff;
-      --card:#ffffffcc; /* glass */
+      --card:#ffffffcc;
     }
     html, body { height:100%; }
     body {
       background:
-        radial-gradient(1000px 600px at 15% 10%, rgba(214,240,233,0.9), transparent 60%),
-        radial-gradient(1000px 600px at 85% 90%, rgba(231,225,249,0.9), transparent 60%),
-        radial-gradient(800px 500px at 80% 0%, rgba(223,233,255,0.9), transparent 70%),
-        var(--bg);
-      color: var(--ink);
-      font-family: 'Poppins', sans-serif;
+        radial-gradient(1200px 800px at 15% 10%, rgba(214,240,233,0.9), transparent 70%),
+        radial-gradient(1200px 800px at 85% 90%, rgba(231,225,249,0.9), transparent 70%),
+        radial-gradient(1000px 700px at 80% 0%, rgba(223,233,255,0.9), transparent 80%),
+        linear-gradient(135deg, #e6f4ef, #e9efff);
+      background-attachment: fixed;
     }
-    .hero{
-      padding: 56px 0 24px;
-      text-align:center;
-    }
-    .badge-soft{
-      background: #eef2ff;
-      color: var(--brand);
-      border: 1px solid #dbe3ff;
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: .85rem;
-      display:inline-flex; align-items:center; gap:.5rem;
-    }
-    .title{
-      font-weight: 800;
-      letter-spacing: -.02em;
-      font-size: clamp(1.8rem, 2.4vw + 1rem, 3rem);
-    }
-    .sub{
-      color: var(--muted);
-      max-width: 880px;
-      margin: 10px auto 0;
-    }
-
-    .wrap{
-      min-height: calc(100vh - 220px);
-      display:flex; align-items:center; justify-content:center;
-      padding: 24px;
-    }
+    .hero{ padding: 56px 0 24px; text-align:center; }
+    .title{ font-weight: 800; font-size: clamp(1.8rem, 2.4vw + 1rem, 3rem); }
+    .sub{ color: var(--muted); max-width: 880px; margin: 10px auto 0; }
+    .wrap{ min-height: calc(100vh - 220px); display:flex; align-items:center; justify-content:center; padding: 24px; }
     .card-glass{
-      width:100%;
-      max-width: 1100px;
+      width:100%; max-width: 1100px;
       border: 1px solid #e9eafe;
       border-radius: 22px;
       background: var(--card);
       backdrop-filter: blur(8px);
-      box-shadow:
-        0 10px 30px rgba(17, 24, 39, .06),
-        inset 0 1px 0 rgba(255,255,255,.5);
+      box-shadow: 0 10px 30px rgba(17,24,39,.06), inset 0 1px 0 rgba(255,255,255,.5);
       overflow:hidden;
     }
-
-    .grid{
-      display:grid; gap:28px;
-      grid-template-columns: 1.2fr .8fr;
-    }
-    @media (max-width: 992px){
-      .grid{ grid-template-columns: 1fr; }
-    }
-    .grid > div:last-child {
-      justify-content: space-between;
-      height: 100%;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 1.5s ease forwards;
-    }
-    @keyframes fadeInUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
+    .grid{ display:grid; gap:28px; grid-template-columns: 1.2fr .8fr; }
+    @media (max-width: 992px){ .grid{ grid-template-columns: 1fr; } }
     .dropzone{
-      border: 2px dashed #cfd8ff;
-      border-radius:16px;
-      padding: 22px;
-      background:#fff;
+      border: 2px dashed #cfd8ff; border-radius:16px; padding: 22px; background:#fff;
+      min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center;
       transition: .2s ease;
-      min-height: 120px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
     }
-    .dropzone.dragover{
-      border-color: var(--brand);
-      box-shadow: 0 0 0 6px #e9edff;
-      background: #f9fbff;
-    }
-    .file-list{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      justify-content:center;
-      margin-top:12px;
-    }
+    .dropzone.dragover{ border-color: var(--brand); box-shadow: 0 0 0 6px #e9edff; background: #f9fbff; }
+    .file-list{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:12px; }
     .file-pill{
       display:inline-flex; align-items:center; gap:.5rem;
       background:#f1f4ff; color:#334155; border:1px solid #e2e8ff;
-      padding: 6px 10px; border-radius: 999px;
-      font-size: .9rem;
+      padding: 6px 10px; border-radius: 999px; font-size: .9rem;
     }
-    .file-pill .remove-btn {
-      border: none;
-      background: transparent;
-      color: #e11d48;
-      cursor: pointer;
-      font-size: 1rem;
-      line-height: 1;
-      padding: 0;
-    }
-
+    .file-pill .remove-btn{ border:none; background:transparent; color:#e11d48; cursor:pointer; font-size:1rem; }
     .btn-primary-soft{
       background: linear-gradient(135deg, var(--brand), var(--brand-2));
       border: none; color: #fff; font-weight: 700;
@@ -137,32 +63,27 @@
       transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease;
     }
     .btn-primary-soft:hover{ transform: translateY(-2px); box-shadow: 0 12px 28px rgba(68,99,255,.32); }
-    .btn-primary-soft:active{ transform: translateY(0); box-shadow: 0 6px 16px rgba(68,99,255,.22); }
     .muted{ color: var(--muted); }
-
-    .feature{
-      display:flex; gap:12px; align-items:flex-start;
-      padding:12px; border-radius:12px;
-    }
-    .feature i{
-      color: var(--brand); font-size: 1.2rem;
-      background:#eef2ff; border:1px solid #dbe3ff; border-radius:10px; padding:8px;
-    }
+    .feature{ display:flex; gap:12px; align-items:flex-start; padding:12px; border-radius:12px; }
+    .feature i{ color: var(--brand); font-size: 1.2rem; background:#eef2ff; border:1px solid #dbe3ff; border-radius:10px; padding:8px; }
   </style>
 </head>
 <body>
 
+  <!-- Top bar with welcome + logout -->
+  <div class="container-fluid p-3 text-end">
+    <span class="fw-semibold">👋 Welcome, {{ username }}</span>
+    <a href="{{ url_for('logout') }}" class="btn btn-sm btn-outline-danger ms-2">Logout</a>
+  </div>
+
   <section class="hero">
     <div class="badge-soft"><i class="bi bi-stars"></i> AI-Powered Resume Checker</div>
     <h1 class="title mt-3">Get a recruiter-style score in seconds</h1>
-    <p class="sub">
-      Paste your job description, drop in a few resumes, and get clean, ranked results with skill matching and a beautiful report.
-    </p>
+    <p class="sub">Paste your job description, drop in a few resumes, and get clean, ranked results with skill matching and a beautiful report.</p>
   </section>
 
   <div class="wrap">
     <div class="card-glass p-4 p-lg-5">
-
       <form action="/" method="post" enctype="multipart/form-data" class="grid">
 
         <!-- Left: Inputs -->
@@ -173,9 +94,7 @@
 
           <label class="form-label fw-semibold">Upload Resumes (PDF)</label>
           <div id="drop" class="dropzone mb-2 text-center">
-            <div class="mb-1">
-              <i class="bi bi-cloud-arrow-up-fill" style="font-size:1.8rem;color:#4463ff;"></i>
-            </div>
+            <div class="mb-1"><i class="bi bi-cloud-arrow-up-fill" style="font-size:1.8rem;color:#4463ff;"></i></div>
             <div class="fw-semibold">Drag & drop PDFs here</div>
             <div class="muted small">or click to browse</div>
             <input id="fileInput" type="file" name="resumes" accept="application/pdf"
@@ -196,31 +115,19 @@
         <div>
           <div class="feature bg-white border mb-2">
             <i class="bi bi-graph-up-arrow"></i>
-            <div>
-              <div class="fw-bold">Smart matching</div>
-              <div class="muted small">Semantic keyword scoring & JD alignment.</div>
-            </div>
+            <div><div class="fw-bold">Smart matching</div><div class="muted small">Semantic keyword scoring & JD alignment.</div></div>
           </div>
           <div class="feature bg-white border mb-2">
             <i class="bi bi-list-check"></i>
-            <div>
-              <div class="fw-bold">Ranked shortlist</div>
-              <div class="muted small">Clear, comparable scores for each resume.</div>
-            </div>
+            <div><div class="fw-bold">Ranked shortlist</div><div class="muted small">Clear, comparable scores for each resume.</div></div>
           </div>
           <div class="feature bg-white border mb-2">
             <i class="bi bi-shield-lock"></i>
-            <div>
-              <div class="fw-bold">Private by design</div>
-              <div class="muted small">Files never leave your machine/server.</div>
-            </div>
+            <div><div class="fw-bold">Private by design</div><div class="muted small">Files never leave your machine/server.</div></div>
           </div>
           <div class="feature bg-white border">
             <i class="bi bi-lightning-charge"></i>
-            <div>
-              <div class="fw-bold">Fast & simple</div>
-              <div class="muted small">Drop, analyze, and export in one minute.</div>
-            </div>
+            <div><div class="fw-bold">Fast & simple</div><div class="muted small">Drop, analyze, and export in one minute.</div></div>
           </div>
         </div>
 
@@ -233,7 +140,6 @@
     const drop = document.getElementById('drop');
     const input = document.getElementById('fileInput');
     const list = document.getElementById('fileList');
-
     let filesArray = [];
 
     const openPicker = () => input.click();
@@ -247,8 +153,6 @@
           <button type="button" class="remove-btn" data-index="${index}">&times;</button>`;
         list.appendChild(pill);
       });
-
-      // attach remove handlers
       list.querySelectorAll('.remove-btn').forEach(btn => {
         btn.addEventListener('click', e => {
           const idx = e.target.getAttribute('data-index');
