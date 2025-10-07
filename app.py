@@ -4,15 +4,24 @@ import io
 import fitz  # PyMuPDF
 import pandas as pd
 from flask import Flask, render_template, request, redirect, flash, session, url_for, send_file
+from pymongo import MongoClient
+from flask_bcrypt import Bcrypt
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "resume_secret_key"
+bcrypt = Bcrypt(app)
+
+# ---------------------- MongoDB Setup ----------------------
+client = MongoClient("mongodb://localhost:27017/")  # Replace with Atlas URI if needed
+db = client["resume_analyzer"]
+users_collection = db["users"]
+results_collection = db["results"]
 
 UPLOAD_FOLDER = "uploads"
 ALLOWED_EXTENSIONS = {"pdf"}
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-# Ensure uploads folder exists
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
@@ -37,14 +46,14 @@ def score_resume(text, keywords):
     return score
 
 
-
 # ---------------------- HOME (Protected) ----------------------
 @app.route("/", methods=["GET", "POST"])
 def upload_file():
-    if "user" not in session:   # protect home
+    if "user" not in session:
         return redirect(url_for("login"))
 
-    username = session.get("user")  # get logged in user
+    username = session.get("user")
+    email = session.get("email")
 
     if request.method == "POST":
         job_description = request.form.get("job_description")
@@ -90,6 +99,15 @@ def upload_file():
         # Save results to session for export
         session["results"] = df.to_dict(orient="records")
 
+        # Save results history in MongoDB
+        results_collection.insert_one({
+            "email": email,
+            "username": username,
+            "job_description": job_description,
+            "results": session["results"],
+            "timestamp": datetime.utcnow()
+        })
+
         return render_template("results.html", results=session["results"], username=username)
 
     return render_template("index.html", username=username)
@@ -103,7 +121,6 @@ def export():
         return redirect(url_for("upload_file"))
 
     df = pd.DataFrame(session["results"])
-
     output = io.StringIO()
     df.to_csv(output, index=False)
     output.seek(0)
@@ -123,20 +140,20 @@ def login():
         email = request.form.get("email")
         password = request.form.get("password")
 
-        # TODO: Replace with real authentication
-        if email == "admin@test.com" and password == "admin":
-            session["user"] = email  # set session
+        user = users_collection.find_one({"email": email})
+        if user and bcrypt.check_password_hash(user["password"], password):
+            session["user"] = user["name"]
+            session["email"] = user["email"]
+            session["role"] = user.get("role", "User")
             return redirect(url_for("upload_file"))
         else:
-            flash("Invalid credentials, try again.")
+            flash("Invalid email or password.")
             return redirect(url_for("login"))
 
     return render_template("login.html")
 
 
 # ---------------------- SIGNUP ----------------------
-import re
-
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
@@ -172,10 +189,11 @@ def signup():
 
     return render_template("signup.html")
 
+
 # ---------------------- LOGOUT ----------------------
 @app.route("/logout")
 def logout():
-    session.pop("user", None)
+    session.clear()
     flash("Logged out successfully.")
     return redirect(url_for("login"))
 

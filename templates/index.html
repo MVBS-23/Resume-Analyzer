@@ -40,6 +40,20 @@
       box-shadow: 0 10px 30px rgba(17,24,39,.06), inset 0 1px 0 rgba(255,255,255,.5);
       overflow:hidden;
     }
+    .badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: rgba(68, 99, 255, 0.1);
+  border: 1px solid rgba(68, 99, 255, 0.3);
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-weight: 600;
+  color: var(--brand);
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(68, 99, 255, 0.1);
+}
+
     .grid{ display:grid; gap:28px; grid-template-columns: 1.2fr .8fr; }
     @media (max-width: 992px){ .grid{ grid-template-columns: 1fr; } }
     .dropzone{
@@ -66,6 +80,10 @@
     .muted{ color: var(--muted); }
     .feature{ display:flex; gap:12px; align-items:flex-start; padding:12px; border-radius:12px; }
     .feature i{ color: var(--brand); font-size: 1.2rem; background:#eef2ff; border:1px solid #dbe3ff; border-radius:10px; padding:8px; }
+    
+    .highlights{
+      margin-top: 60px;
+    }
   </style>
 </head>
 <body>
@@ -76,8 +94,10 @@
     <a href="{{ url_for('logout') }}" class="btn btn-sm btn-outline-danger ms-2">Logout</a>
   </div>
 
-  <section class="hero">
-    <div class="badge-soft"><i class="bi bi-stars"></i> AI-Powered Resume Checker</div>
+    <section class="hero">
+    <div class="badge-pill">
+      <i class="bi bi-stars"></i> AI-Powered Resume Checker
+    </div>
     <h1 class="title mt-3">Get a recruiter-style score in seconds</h1>
     <p class="sub">Paste your job description, drop in a few resumes, and get clean, ranked results with skill matching and a beautiful report.</p>
   </section>
@@ -107,12 +127,11 @@
             <button type="submit" class="btn-primary-soft">
               <i class="bi bi-rocket-takeoff-fill me-1"></i> Analyze
             </button>
-            <span class="muted small">No data stored • Runs locally</span>
           </div>
         </div>
 
-        <!-- Right: Highlights -->
-        <div>
+        <!-- Right: highlights -->
+        <div class="Highlights">
           <div class="feature bg-white border mb-2">
             <i class="bi bi-graph-up-arrow"></i>
             <div><div class="fw-bold">Smart matching</div><div class="muted small">Semantic keyword scoring & JD alignment.</div></div>
@@ -123,7 +142,7 @@
           </div>
           <div class="feature bg-white border mb-2">
             <i class="bi bi-shield-lock"></i>
-            <div><div class="fw-bold">Private by design</div><div class="muted small">Files never leave your machine/server.</div></div>
+            <div><div class="fw-bold">Private by design</div><div class="muted small">Files never leave the server.</div></div>
           </div>
           <div class="feature bg-white border">
             <i class="bi bi-lightning-charge"></i>
